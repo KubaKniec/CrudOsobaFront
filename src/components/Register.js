@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ApiService from "../service/ApiService";
-import {Link, redirect} from "react-router-dom";
+import {BrowserRouter, Link, Route, Routes, useNavigate} from "react-router-dom";
 import Login from "./Login";
 
 class Register extends Component {
@@ -15,13 +15,15 @@ class Register extends Component {
         this.savePerson = this.savePerson.bind(this);
     }
 
+
     savePerson = (e) => {
         e.preventDefault();
+        const navigate = useNavigate();
         let person = { name: this.state.name, surname: this.state.surname, email: this.state.email, password: this.state.password };
         ApiService.createPerson(person)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
-                // this.props.history.push('/login');
+                navigate("/login");
             });
     }
 
@@ -29,7 +31,12 @@ class Register extends Component {
         this.setState({ [e.target.name]: e.target.value });
 
     render() {
-        return(
+        return(<>
+            <div>
+                    <Routes>
+                        <Route path="/login" component={<Login/>} />
+                    </Routes>
+            </div>
             <div>
                 <h2>Rejestracja</h2>
 
@@ -38,12 +45,12 @@ class Register extends Component {
                     <label>
                         Imię:
                         <input
-                            type="text" name="firstName" value={this.name} onChange={this.onChange} />
+                            type="text" name="name" value={this.name} onChange={this.onChange} />
                     </label>
                     <br/>
                     <label>
                         Nazwisko:
-                        <input type="text" name="lastName" value={this.surname} onChange={this.onChange} />
+                        <input type="text" name="surname" value={this.surname} onChange={this.onChange} />
                     </label>
                     <br/>
                     <label>
@@ -63,6 +70,7 @@ class Register extends Component {
                     <button>Login</button>
                 </Link>
             </div>
+            </>
         );
     }
 }
