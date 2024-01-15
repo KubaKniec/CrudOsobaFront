@@ -7,9 +7,16 @@ class ApiService {
         return axios.post(BACKEND_URL + '/save', person);
     }
 
-    loginPerson(loginData) {
-        return axios.put(BACKEND_URL + '/login', loginData)
+    loginPerson(email, password) {
+        // return axios.put(BACKEND_URL + '/login?email=' + email + '&password=' + password)
+        return axios.get(BACKEND_URL + '/login?email=' + email + '&password=' + password)
     }
+
+    getPersonByEmail(email) {
+        return axios.get(BACKEND_URL + '/getByEmail?' + email);
+    }
+
+
 }
 
 export default new ApiService();

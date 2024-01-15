@@ -12,19 +12,30 @@ class Login extends Component {
         }
         this.loginPerson = this.loginPerson.bind(this);
     }
+
     loginPerson = (e) => {
         e.preventDefault();
-        let loginData = {name: this.state.name, surname: this.state.surname, email: this.state.email, password: this.state.password};
-        ApiService.loginPerson(loginData).then(alert("Zalogowano pomyslnie"))
+        ApiService.loginPerson(this.state.email, this.state.password)
+            .then( person => {
+                    this.setState({
+                        name: person.name,
+                        surname: person.surname
 
+                    })
+            }
+        );
+        localStorage.setItem('login-data-email', this.state.email)
+        localStorage.setItem('login-data-password', this.state.password)
+        localStorage.setItem('login-data-name', this.state.name)
+        localStorage.setItem('login-data-surname', this.state.surname)
 
     }
 
     onChange = (e) =>
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
 
     render() {
-        return(
+        return (
             <div>
                 <h2>Logowanie</h2>
 
@@ -33,12 +44,12 @@ class Login extends Component {
                     <label>
                         e mail:
                         <input
-                            type="text" name="email" value={this.email} onChange={this.onChange} />
+                            type="text" name="email" value={this.email} onChange={this.onChange}/>
                     </label>
                     <br/>
                     <label>
                         Hasło:
-                        <input type="password" name="password" value={this.password} onChange={this.onChange} />
+                        <input type="password" name="password" value={this.password} onChange={this.onChange}/>
                     </label>
                     <br/>
                     <button type="submit" onClick={this.loginPerson}>Zaloguj się</button>

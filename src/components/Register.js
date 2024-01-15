@@ -18,12 +18,13 @@ class Register extends Component {
 
     savePerson = (e) => {
         e.preventDefault();
-        const navigate = useNavigate();
+        // const navigate = useNavigate();
         let person = { name: this.state.name, surname: this.state.surname, email: this.state.email, password: this.state.password };
         ApiService.createPerson(person)
             .then(res => {
                 this.setState({ message: 'User added successfully.' });
-                navigate("/login");
+                // navigate("/login"); //TODO
+                // this.props.history.push("/login")
             });
     }
 
