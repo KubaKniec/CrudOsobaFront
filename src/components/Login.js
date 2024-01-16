@@ -16,18 +16,16 @@ class Login extends Component {
     loginPerson = (e) => {
         e.preventDefault();
         ApiService.loginPerson(this.state.email, this.state.password)
-            .then( person => {
-                    this.setState({
-                        name: person.name,
-                        surname: person.surname
+            .then(response => {
+                    const person = response.data;
+                        localStorage.setItem('login-data-id', person.id);
+                        localStorage.setItem('login-data-email', this.state.email);
+                        localStorage.setItem('login-data-password', this.state.password);
+                        localStorage.setItem('login-data-name', person.name);
+                        localStorage.setItem('login-data-surname', person.surname);
 
-                    })
-            }
-        );
-        localStorage.setItem('login-data-email', this.state.email)
-        localStorage.setItem('login-data-password', this.state.password)
-        localStorage.setItem('login-data-name', this.state.name)
-        localStorage.setItem('login-data-surname', this.state.surname)
+
+            })
 
     }
 

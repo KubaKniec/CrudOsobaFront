@@ -8,7 +8,6 @@ class ApiService {
     }
 
     loginPerson(email, password) {
-        // return axios.put(BACKEND_URL + '/login?email=' + email + '&password=' + password)
         return axios.get(BACKEND_URL + '/login?email=' + email + '&password=' + password)
     }
 
@@ -16,7 +15,9 @@ class ApiService {
         return axios.get(BACKEND_URL + '/getByEmail?' + email);
     }
 
-
+    deletePersonById(id) {
+        return axios.delete(BACKEND_URL + '/delete?id=' + id);
+    }
 }
 
 export default new ApiService();
