@@ -8,13 +8,22 @@ class Login extends Component {
             name: '',
             surname: '',
             email: '',
-            password: ''
+            password: '',
+            gender: '',
+            cardType: '',
+            cardNumber: ''
         }
         this.loginPerson = this.loginPerson.bind(this);
     }
 
     loginPerson = (e) => {
         e.preventDefault();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.state.email)) {
+            alert('Email niepoprawny');
+            return;
+        }
+
         ApiService.loginPerson(this.state.email, this.state.password)
             .then(response => {
                 if (response.data && response.data.id && response.data.name && response.data.surname){
@@ -24,12 +33,18 @@ class Login extends Component {
                     localStorage.setItem('login-data-password', this.state.password);
                     localStorage.setItem('login-data-name', person.name);
                     localStorage.setItem('login-data-surname', person.surname);
-                    alert("Logged in successfully")
+                    localStorage.setItem('login-data-gender', person.gender);
+                    localStorage.setItem('login-data-cardType', person.cardType);
+                    localStorage.setItem('login-data-cardNumber', person.cardNumber);
+                    alert("Zalogowano pomyślnie")
                 } else {
-                    alert("Bad email or password")
+                    alert("Zły email lub hasło")
                 }
 
-            })
+            }).catch((error) => {
+                console.error('Błąd podczas logowania', error);
+                alert("Błąd podczas logowania, sprawdź wprowadzone dane")
+                })
 
     }
 

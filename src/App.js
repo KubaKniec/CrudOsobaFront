@@ -14,9 +14,10 @@ import EditPersonData from "./components/EditPersonData";
 
 
 function App() {
-    // const handleRefresh = () => {
-    //     window.location.reload();
-    // };
+    const handleRefresh = () => {
+        window.location.reload();
+    };
+
 
     const logout = () => {
         localStorage.clear();
@@ -56,7 +57,7 @@ function App() {
                                     <Route path="/login" element={<Login/>}/>
                                     <Route path="/editData" element={<EditPersonData/>}/>
                                 </Routes>
-                                    <h3>All pages</h3>
+                                    <h3>Wszystkie strony</h3>
                                 <Link to="/">
                                     <button>Home</button>
                                 </Link>

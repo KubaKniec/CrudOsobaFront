@@ -11,6 +11,9 @@ class EditPersonData extends Component {
             surname: '',
             email: '',
             password: '',
+            gender: '',
+            cardType: '',
+            cardNumber: '',
             showPassword: false,
             message: '',
         };
@@ -33,6 +36,9 @@ class EditPersonData extends Component {
                         surname: userData.surname,
                         email: userData.email,
                         password: userData.password,
+                        gender: userData.gender,
+                        cardType: userData.cardType,
+                        cardNumber: userData.cardNumber
                     });
                 })
                 .catch((error) => {
@@ -45,7 +51,7 @@ class EditPersonData extends Component {
         const Id = localStorage.getItem('login-data-id');
         if (Id){
             e.preventDefault();
-            const { id, name, surname, email, password } = this.state;
+            const { id, name, surname, email, password, gender, cardType, cardNumber } = this.state;
             const userId = localStorage.getItem('login-data-id');
 
             if (userId) {
@@ -55,7 +61,19 @@ class EditPersonData extends Component {
                     surname,
                     email,
                     password,
+                    gender,
+                    cardType,
+                    cardNumber
                 };
+
+                // console.log(person)
+                // console.log('Name:', this.state.name);
+                // console.log('Surname:', this.state.surname);
+                // console.log('Email:', this.state.email);
+                // console.log('Password:', this.state.password);
+                // console.log('Gender:', this.state.gender);
+                // console.log('Card Type:', this.state.cardType);
+                // console.log('Card Number:', this.state.cardNumber);
 
                 ApiService.updatePersonById(this.state.id, person)
                     .then((res) => {
@@ -100,6 +118,20 @@ class EditPersonData extends Component {
         }
     };
 
+    checkCardNumber = () => {
+        const cardNumber = this.state.cardNumber;
+
+        if (cardNumber.length === 0) {
+            return 'Wprowadź numer karty';
+        } else if (cardNumber.length !== 16) {
+            return 'Numer karty musi zawierać dokładnie 16 cyfr.';
+        } else if (!/^\d+$/.test(cardNumber)) {
+            return 'Numer karty musi składać się z cyfr.';
+        } else {
+            return 'Poprawny numer karty';
+        }
+    };
+
     render() {
         const passwordStrength = this.checkPasswordStrength();
         return (
@@ -140,6 +172,38 @@ class EditPersonData extends Component {
                         <div style={{ marginTop: '5px', fontSize: '0.8em', color: this.checkPasswordStrength() === 'Silne hasło' ? 'green' : 'red' }}>
                             {passwordStrength}
                         </div>
+                        <label>
+                            Płeć:
+                            <select name="gender" value={this.state.gender} onChange={this.onChange}>
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Typ karty:
+                            <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
+                                <option value="VISA">VISA</option>
+                                <option value="MASTERCARD">MASTERCARD</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Numer karty:
+                            <input
+                                type="text"
+                                name="cardNumber"
+                                value={this.state.cardNumber}
+                                onChange={this.onChange}
+                                maxLength="16"
+                            />
+                        </label>
+                        {this.checkCardNumber() !== 'Poprawny numer karty' && (
+                            <div style={{ color: 'red' }}>{this.checkCardNumber()}</div>
+                        )}
+                        <br />
                         <br />
                         <button type="submit">Zapisz zmiany</button>
                     </form>

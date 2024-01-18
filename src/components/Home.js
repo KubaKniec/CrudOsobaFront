@@ -14,9 +14,16 @@ class Home extends Component {
             name: '',
             surname: '',
             email: '',
-            password: ''
+            password: '',
+            gender: '',
+            cardType: '',
+            cardNumber: ''
         }
         this.getData = this.getData.bind(this);
+    }
+
+    componentDidMount() {
+        this.getData();
     }
     getData = (e) => {
         this.setState({
@@ -24,7 +31,10 @@ class Home extends Component {
             name: localStorage.getItem('login-data-name'),
             surname: localStorage.getItem('login-data-surname'),
             email: localStorage.getItem('login-data-email'),
-            password: localStorage.getItem('login-data-password')
+            password: localStorage.getItem('login-data-password'),
+            gender: localStorage.getItem('login-data-gender'),
+            cardType: localStorage.getItem('login-data-cardType'),
+            cardNumber: localStorage.getItem('login-data-cardNumber')
             })
 
     };
@@ -32,6 +42,14 @@ class Home extends Component {
     deletePerson = (e) => {
         e.preventDefault();
         ApiService.deletePersonById(this.state.id)
+            .then(() => {
+                localStorage.clear();
+                this.getData();
+                alert("Twoje dane zostały usunięte")
+            }).catch((error) => {
+            console.error('Błąd podczas usuwania użytkownika')
+            alert('Błąd podczas usuwania użytkownika')
+        })
     }
 
 
@@ -41,18 +59,24 @@ class Home extends Component {
                 <h1>Home</h1>
                 <div>
                     <h2>Person data:</h2>
-                    <button onClick={this.getData}>Load Data</button>
+                    <button onClick={this.getData}>Reload Data</button>
                     <br />
                     <br />
                     <label>Id: {this.state.id}</label>
                     <br />
                     <label>Email: {this.state.email}</label>
                     <br />
-                    <label>Name: {this.state.name}</label>
+                    <label>Imię: {this.state.name}</label>
                     <br />
-                    <label>Surname: {this.state.surname}</label>
+                    <label>Nazwisko: {this.state.surname}</label>
                     <br />
-                    <label>Password: {this.state.password}</label>
+                    <label>Hasło: {this.state.password}</label>
+                    <br />
+                    <label>Płeć: {this.state.gender}</label>
+                    <br />
+                    <label>Typ karty: {this.state.cardType}</label>
+                    <br />
+                    <label>Numer karty: {this.state.cardNumber}</label>
                 </div>
                 <br />
                 <br />
