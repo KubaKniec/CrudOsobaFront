@@ -17,13 +17,17 @@ class Login extends Component {
         e.preventDefault();
         ApiService.loginPerson(this.state.email, this.state.password)
             .then(response => {
+                if (response.data && response.data.id && response.data.name && response.data.surname){
                     const person = response.data;
-                        localStorage.setItem('login-data-id', person.id);
-                        localStorage.setItem('login-data-email', this.state.email);
-                        localStorage.setItem('login-data-password', this.state.password);
-                        localStorage.setItem('login-data-name', person.name);
-                        localStorage.setItem('login-data-surname', person.surname);
-
+                    localStorage.setItem('login-data-id', person.id);
+                    localStorage.setItem('login-data-email', this.state.email);
+                    localStorage.setItem('login-data-password', this.state.password);
+                    localStorage.setItem('login-data-name', person.name);
+                    localStorage.setItem('login-data-surname', person.surname);
+                    alert("Logged in successfully")
+                } else {
+                    alert("Bad email or password")
+                }
 
             })
 
@@ -31,6 +35,12 @@ class Login extends Component {
 
     onChange = (e) =>
         this.setState({[e.target.name]: e.target.value});
+
+    toggleShowPassword = () => {
+        this.setState((prevState) => ({
+            showPassword: !prevState.showPassword,
+        }));
+    };
 
     render() {
         return (
@@ -47,7 +57,15 @@ class Login extends Component {
                     <br/>
                     <label>
                         Hasło:
-                        <input type="password" name="password" value={this.password} onChange={this.onChange}/>
+                        <input
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.onChange}
+                        />
+                        <button type="button" onClick={this.toggleShowPassword}>
+                            {this.state.showPassword ? 'Ukryj hasło' : 'Pokaż hasło'}
+                        </button>
                     </label>
                     <br/>
                     <button type="submit" onClick={this.loginPerson}>Zaloguj się</button>

@@ -1,6 +1,10 @@
-import {Component} from "react";
+import React, {Component} from "react";
 import ApiService from "../service/ApiService";
 import App from "../App";
+import {Link, Route, Routes} from "react-router-dom";
+import Register from "./Register";
+import Login from "./Login";
+import EditPersonData from "./EditPersonData";
 
 class Home extends Component {
     constructor(props) {
@@ -51,6 +55,16 @@ class Home extends Component {
                     <label>Password: {this.state.password}</label>
                 </div>
                 <br />
+                <br />
+                <h1>Edit Data: </h1>
+                <Routes>
+                    <Route path="/editData" element={<EditPersonData/>}/>
+                </Routes>
+                <Link to="/editData">
+                    <button>Edit</button>
+                </Link>
+
+
                 <br />
                 <br />
                 <h1>DANGER ZONE</h1>

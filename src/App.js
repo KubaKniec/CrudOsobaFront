@@ -10,17 +10,31 @@ import Navbar from "./components/Navbar";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {render} from "@testing-library/react";
+import EditPersonData from "./components/EditPersonData";
 
 
 function App() {
+    // const handleRefresh = () => {
+    //     window.location.reload();
+    // };
+
     const logout = () => {
         localStorage.clear();
     }
+
     const isLoggedIn = () => {
-        if (localStorage.getItem('login-data-name') !== undefined){
-            return render(<button onClick={logout}>logout</button>)
-        }
-        return '';
+        const userName = localStorage.getItem('login-data-name');
+        if (userName) {
+            return (
+                <div>
+                    <h6>Zalogowano jako {userName}</h6>
+                    <button onClick={logout}>logout</button>
+                </div>
+
+            );
+        } else return (
+            <div></div>
+        )
     }
 
     return (
@@ -29,7 +43,9 @@ function App() {
                     <h2>project: CRUD Osoba</h2>
                     <h4>By that spinning dude</h4>
                     <img src={me} className="App-logo" alt="me" />
+                    {isLoggedIn()}
                     {/*<Navbar/>*/}
+
                 </header>
                 <body>
                     <div>
@@ -38,6 +54,7 @@ function App() {
                                     <Route path="/" element={<Home/>}/>
                                     <Route path="/register" element={<Register/>}/>
                                     <Route path="/login" element={<Login/>}/>
+                                    <Route path="/editData" element={<EditPersonData/>}/>
                                 </Routes>
                                     <h3>All pages</h3>
                                 <Link to="/">

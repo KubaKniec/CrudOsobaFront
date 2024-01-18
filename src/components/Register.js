@@ -10,7 +10,8 @@ class Register extends Component {
             name: '',
             surname: '',
             email: '',
-            password: ''
+            password: '',
+            showPassword: false,
         }
         this.savePerson = this.savePerson.bind(this);
     }
@@ -18,18 +19,64 @@ class Register extends Component {
 
     savePerson = (e) => {
         e.preventDefault();
-        // const navigate = useNavigate();
-        let person = { name: this.state.name, surname: this.state.surname, email: this.state.email, password: this.state.password };
+
+        // Walidacja pola email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(this.state.email)) {
+            alert('Email niepoprawny');
+            return;
+        }
+
+        // Walidacja siły hasła
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{6,}$/;
+        if (!passwordRegex.test(this.state.password)) {
+            // this.setState({
+            //     message:
+            //         'Hasło powinno mieć co najmniej 1 dużą literę, 1 małą literę, więcej niż 6 znaków oraz znak specjalny.',
+            // });
+            alert('Hasło powinno mieć co najmniej 1 dużą literę, 1 małą literę, więcej niż 6 znaków oraz znak specjalny.');
+            return;
+        }
+
+        // Jeśli walidacja przebiegła pomyślnie, kontynuuj zapisywanie użytkownika
+        const person = {
+            name: this.state.name,
+            surname: this.state.surname,
+            email: this.state.email,
+            password: this.state.password,
+        };
+
         ApiService.createPerson(person)
-            .then(res => {
-                this.setState({ message: 'User added successfully.' });
-                // navigate("/login"); //TODO
-                // this.props.history.push("/login")
+            .then((res) => {
+                this.setState({ message: 'Użytkownik został dodany pomyślnie.' });
+            })
+            .catch((error) => {
+                console.error('Błąd podczas rejestracji:', error);
+                this.setState({ message: 'Błąd podczas rejestracji użytkownika.' });
             });
-    }
+    };
 
     onChange = (e) =>
         this.setState({ [e.target.name]: e.target.value });
+
+    toggleShowPassword = () => {
+        this.setState((prevState) => ({
+            showPassword: !prevState.showPassword,
+        }));
+    };
+
+    checkPasswordStrength = () => {
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{6,}$/;
+        const isStrong = passwordRegex.test(this.state.password);
+
+        if (this.state.password.length === 0) {
+            return 'Wprowadź hasło';
+        } else if (!isStrong) {
+            return 'Hasło powinno mieć co najmniej 1 dużą literę, 1 małą literę, więcej niż 6 znaków oraz znak specjalny.';
+        } else {
+            return 'Silne hasło';
+        }
+    };
 
     render() {
         return(<>
@@ -61,8 +108,20 @@ class Register extends Component {
                     <br/>
                     <label>
                         Hasło:
-                        <input type="password" name="password" value={this.password} onChange={this.onChange} />
+                        {/*<input type="password" name="password" value={this.password} onChange={this.onChange} />*/}
+                        <input
+                            type={this.state.showPassword ? 'text' : 'password'}
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.onChange}
+                        />
+                        <button type="button" onClick={this.toggleShowPassword}>
+                            {this.state.showPassword ? 'Ukryj hasło' : 'Pokaż hasło'}
+                        </button>
                     </label>
+                    <div style={{ marginTop: '5px', fontSize: '0.8em', color: this.checkPasswordStrength() === 'Silne hasło' ? 'green' : 'red' }}>
+                        {this.checkPasswordStrength()}
+                    </div>
                     <br/>
                     <button type="submit" onClick={this.savePerson}>Zarejestruj się</button>
                 </form>
