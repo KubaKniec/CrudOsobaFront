@@ -14,6 +14,7 @@ class Register extends Component {
         gender: '',
         cardType: '',
         cardNumber: '',
+        isAdmin: ''
     };
 
     savePerson = (e) => {
@@ -57,6 +58,7 @@ class Register extends Component {
             gender: this.state.gender,
             cardType: this.state.cardType,
             cardNumber: this.state.cardNumber,
+            isAdmin: false
         };
 
         ApiService.createPerson(person)

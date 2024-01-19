@@ -26,6 +26,10 @@ class ApiService {
     updatePersonById(id, person) {
         return axios.put(BACKEND_URL + '/update/' + id, person);
     }
+
+    checkIsAdmin(id) {
+        return axios.get(BACKEND_URL + '/isAdmin?id=' + id)
+    }
 }
 
 export default new ApiService();

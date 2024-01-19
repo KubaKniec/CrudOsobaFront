@@ -11,7 +11,8 @@ class Login extends Component {
             password: '',
             gender: '',
             cardType: '',
-            cardNumber: ''
+            cardNumber: '',
+            isAdmin: ''
         }
         this.loginPerson = this.loginPerson.bind(this);
     }
@@ -36,6 +37,7 @@ class Login extends Component {
                     localStorage.setItem('login-data-gender', person.gender);
                     localStorage.setItem('login-data-cardType', person.cardType);
                     localStorage.setItem('login-data-cardNumber', person.cardNumber);
+                    localStorage.setItem('login-data-isAdmin', person.isAdmin);
                     alert("Zalogowano pomyślnie")
                 } else {
                     alert("Zły email lub hasło")

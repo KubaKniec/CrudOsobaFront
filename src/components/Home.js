@@ -17,7 +17,8 @@ class Home extends Component {
             password: '',
             gender: '',
             cardType: '',
-            cardNumber: ''
+            cardNumber: '',
+            isAdmin: ''
         }
         this.getData = this.getData.bind(this);
     }
@@ -34,7 +35,8 @@ class Home extends Component {
             password: localStorage.getItem('login-data-password'),
             gender: localStorage.getItem('login-data-gender'),
             cardType: localStorage.getItem('login-data-cardType'),
-            cardNumber: localStorage.getItem('login-data-cardNumber')
+            cardNumber: localStorage.getItem('login-data-cardNumber'),
+            isAdmin: localStorage.getItem('login-data-isAdmin')
             })
 
     };
@@ -50,6 +52,71 @@ class Home extends Component {
             console.error('Błąd podczas usuwania użytkownika')
             alert('Błąd podczas usuwania użytkownika')
         })
+    }
+
+    checkIsAdmin = (e) => {
+        e.preventDefault();
+        ApiService.checkIsAdmin(this.state.id)
+            .then(() => {
+                return(
+                    <div>
+                        <h1>Admin Panel</h1>
+                        <h2>Dodaj użytkownika</h2>
+                        <label>
+                            Imię:
+                            <input type="text" name="name" value={this.state.name} onChange={this.onChange} />
+                        </label>
+                        <br />
+                        <label>
+                            Nazwisko:
+                            <input type="text" name="surname" value={this.state.surname} onChange={this.onChange} />
+                        </label>
+                        <br />
+                        <label>
+                            Email:
+                            <input type="email" name="email" value={this.state.email} onChange={this.onChange} />
+                        </label>
+                        <br />
+                        <label>
+                            Hasło:
+                            <input
+                                name="password"
+                                value={this.state.password}
+                                onChange={this.onChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Płeć:
+                            <select name="gender" value={this.state.gender} onChange={this.onChange}>
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Typ karty:
+                            <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
+                                <option value="VISA">VISA</option>
+                                <option value="MASTERCARD">MASTERCARD</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Numer karty:
+                            <input
+                                type="text"
+                                name="cardNumber"
+                                value={this.state.cardNumber}
+                                onChange={this.onChange}
+                                maxLength="16"
+                            />
+                        </label>
+                    </div>
+                )
+            })
     }
 
 
@@ -77,6 +144,8 @@ class Home extends Component {
                     <label>Typ karty: {this.state.cardType}</label>
                     <br />
                     <label>Numer karty: {this.state.cardNumber}</label>
+                    <br />
+                    <label>Admin: {this.state.isAdmin}</label>
                 </div>
                 <br />
                 <br />
@@ -95,6 +164,9 @@ class Home extends Component {
                 <div>
                     <h2>Delete Account</h2>
                     <button onClick={this.deletePerson}>DELETE 4 EVER</button>
+                </div>
+                <div>
+                    {this.checkIsAdmin}
                 </div>
             </div>
         )
