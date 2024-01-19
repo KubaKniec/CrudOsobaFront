@@ -23,10 +23,10 @@ class Home extends Component {
         this.getData = this.getData.bind(this);
     }
 
-    componentDidMount() {
-        this.getData();
+    async componentDidMount() {
+        await this.getData(localStorage.getItem('login-data-id'));
     }
-    getData = (e) => {
+    getData = async () => {
         this.setState({
             id: localStorage.getItem('login-data-id'),
             name: localStorage.getItem('login-data-name'),
@@ -36,11 +36,32 @@ class Home extends Component {
             gender: localStorage.getItem('login-data-gender'),
             cardType: localStorage.getItem('login-data-cardType'),
             cardNumber: localStorage.getItem('login-data-cardNumber'),
-            isAdmin: localStorage.getItem('login-data-isAdmin')
-            })
+        });
+
+
+            const isAdmin = await this.checkIsAdmin();
+
+            if (isAdmin === true) {
+                this.setState({
+                    isAdmin: true,
+                });
+            } else {
+                this.setState({
+                    isAdmin: false,
+                });
+            }
 
     };
 
+    checkIsAdmin = async (e) => {
+        try {
+            const response = await ApiService.checkIsAdmin(this.state.id);
+            return response.data === true;
+        } catch (error) {
+            console.error('Błąd podczas sprawdzania uprawnień admina', error);
+            return false;
+        }
+    };
     deletePerson = (e) => {
         e.preventDefault();
         ApiService.deletePersonById(this.state.id)
@@ -53,71 +74,73 @@ class Home extends Component {
             alert('Błąd podczas usuwania użytkownika')
         })
     }
+    onChange = (e) => {
+        this.setState({ [e.target.name]: e.target.value });
+    };
 
-    checkIsAdmin = (e) => {
-        e.preventDefault();
-        ApiService.checkIsAdmin(this.state.id)
-            .then(() => {
-                return(
-                    <div>
-                        <h1>Admin Panel</h1>
-                        <h2>Dodaj użytkownika</h2>
-                        <label>
-                            Imię:
-                            <input type="text" name="name" value={this.state.name} onChange={this.onChange} />
-                        </label>
-                        <br />
-                        <label>
-                            Nazwisko:
-                            <input type="text" name="surname" value={this.state.surname} onChange={this.onChange} />
-                        </label>
-                        <br />
-                        <label>
-                            Email:
-                            <input type="email" name="email" value={this.state.email} onChange={this.onChange} />
-                        </label>
-                        <br />
-                        <label>
-                            Hasło:
-                            <input
-                                name="password"
-                                value={this.state.password}
-                                onChange={this.onChange}
-                            />
-                        </label>
-                        <br />
-                        <label>
-                            Płeć:
-                            <select name="gender" value={this.state.gender} onChange={this.onChange}>
-                                <option value="MALE">MALE</option>
-                                <option value="FEMALE">FEMALE</option>
-                                <option value="OTHER">OTHER</option>
-                            </select>
-                        </label>
-                        <br />
-                        <label>
-                            Typ karty:
-                            <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
-                                <option value="VISA">VISA</option>
-                                <option value="MASTERCARD">MASTERCARD</option>
-                                <option value="OTHER">OTHER</option>
-                            </select>
-                        </label>
-                        <br />
-                        <label>
-                            Numer karty:
-                            <input
-                                type="text"
-                                name="cardNumber"
-                                value={this.state.cardNumber}
-                                onChange={this.onChange}
-                                maxLength="16"
-                            />
-                        </label>
-                    </div>
-                )
-            })
-    }
+    renderAdminPanel = () => { //TODO zrobic tak zeby w tej funkcji byl obiekt ktory potem jest wysylany do .save() na backend
+        if (this.state.isAdmin === true)
+        return (
+                <div>
+                    <h1>Admin Panel</h1>
+                    <h2>Dodaj użytkownika</h2>
+                    <label>
+                        Imię:
+                        <input type="text" name="name" value={this.state.name} onChange={this.onChange} />
+                    </label>
+                    <br />
+                    <label>
+                        Nazwisko:
+                        <input type="text" name="surname" value={this.state.surname} onChange={this.onChange} />
+                    </label>
+                    <br />
+                    <label>
+                        Email:
+                        <input type="email" name="email" value={this.state.email} onChange={this.onChange} />
+                    </label>
+                    <br />
+                    <label>
+                        Hasło:
+                        <input
+                            name="password"
+                            value={this.state.password}
+                            onChange={this.onChange}
+                        />
+                    </label>
+                    <br />
+                    <label>
+                        Płeć:
+                        <select name="gender" value={this.state.gender} onChange={this.onChange}>
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                            <option value="OTHER">OTHER</option>
+                        </select>
+                    </label>
+                    <br />
+                    <label>
+                        Typ karty:
+                        <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
+                            <option value="VISA">VISA</option>
+                            <option value="MASTERCARD">MASTERCARD</option>
+                            <option value="OTHER">OTHER</option>
+                        </select>
+                    </label>
+                    <br />
+                    <label>
+                        Numer karty:
+                        <input
+                            type="text"
+                            name="cardNumber"
+                            value={this.state.cardNumber}
+                            onChange={this.onChange}
+                            maxLength="16"
+                        />
+                    </label>
+                </div>
+        );
+    };
+
+
 
 
     render() {
@@ -166,7 +189,7 @@ class Home extends Component {
                     <button onClick={this.deletePerson}>DELETE 4 EVER</button>
                 </div>
                 <div>
-                    {this.checkIsAdmin}
+                    {this.renderAdminPanel()}
                 </div>
             </div>
         )

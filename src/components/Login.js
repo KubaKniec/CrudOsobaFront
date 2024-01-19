@@ -12,23 +12,24 @@ class Login extends Component {
             gender: '',
             cardType: '',
             cardNumber: '',
-            isAdmin: ''
         }
         this.loginPerson = this.loginPerson.bind(this);
     }
 
     loginPerson = (e) => {
         e.preventDefault();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(this.state.email)) {
-            alert('Email niepoprawny');
-            return;
-        }
+        // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        // if (!emailRegex.test(this.state.email)) {
+        //     alert('Email niepoprawny');
+        //     return;
+        // }
 
         ApiService.loginPerson(this.state.email, this.state.password)
             .then(response => {
                 if (response.data && response.data.id && response.data.name && response.data.surname){
                     const person = response.data;
+                    console.log(response.data.isAdmin)
+                    console.log(person)
                     localStorage.setItem('login-data-id', person.id);
                     localStorage.setItem('login-data-email', this.state.email);
                     localStorage.setItem('login-data-password', this.state.password);
@@ -37,7 +38,8 @@ class Login extends Component {
                     localStorage.setItem('login-data-gender', person.gender);
                     localStorage.setItem('login-data-cardType', person.cardType);
                     localStorage.setItem('login-data-cardNumber', person.cardNumber);
-                    localStorage.setItem('login-data-isAdmin', person.isAdmin);
+
+                    console.log(localStorage.getItem('login-data-isAdmin'))
                     alert("Zalogowano pomyślnie")
                 } else {
                     alert("Zły email lub hasło")
@@ -65,7 +67,6 @@ class Login extends Component {
                 <h2>Logowanie</h2>
 
                 <form onSubmit={this.loginPerson}>
-                    {/*<form>*/}
                     <label>
                         e mail:
                         <input
