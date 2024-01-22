@@ -39,6 +39,10 @@ class ApiService {
         return axios.put(BACKEND_URL + '/revokeAdmin/' + id)
 
     }
+
+    loadDataFromCSV(pathToCSV) {
+        return axios.post(BACKEND_URL + '/loadData?pathToCSV=' + pathToCSV)
+    }
 }
 
 export default new ApiService();

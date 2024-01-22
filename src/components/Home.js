@@ -41,7 +41,8 @@ class Home extends Component {
             },
             deleteUserId: '',
             grantAdmin: '',
-            revokeAdmin: ''
+            revokeAdmin: '',
+            csvPath: ''
         }
         this.getData = this.getData.bind(this);
     }
@@ -162,6 +163,10 @@ class Home extends Component {
         ApiService.updatePersonById(this.state.adminDataToUpdate.adminDataId,
             this.state.adminDataToUpdate)
 
+    }
+
+    loadDataFromCSV = () => {
+        ApiService.loadDataFromCSV(this.state.csvPath)
     }
 
     renderAdminPanel = () => { //TODO zrobic tak zeby w tej funkcji byl obiekt ktory potem jest wysylany do .save() na backend
@@ -380,6 +385,21 @@ class Home extends Component {
                         <button type="submit">Usuń</button>
                     </form>
 
+                    <h2>Załaduj dane z CSV</h2>
+                    <form onSubmit={this.loadDataFromCSV}>
+                        <label>
+                            Ścieżka do pliku csv:<br/>
+                            poprawna ścieżka: test.csv<br/>
+                            niepoprawna ścieżka: C:/test.scv<br/>
+                            <input
+                                type="text"
+                                name="csvPath"
+                                value={this.state.csvPath}
+                                onChange={this.onChange}/>
+                        </label>
+                        <br />
+                        <button type="submit">Załaduj dane</button>
+                    </form>
 
                 </div>
             );
