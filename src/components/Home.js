@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import ApiService from "../service/ApiService";
 import App from "../App";
-import {Link, Route, Routes} from "react-router-dom";
-import Register from "./Register";
-import Login from "./Login";
+import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
 import EditPersonData from "./EditPersonData";
+import AdminPanel from "./AdminPanel";
 
 class Home extends Component {
     constructor(props) {
@@ -18,7 +17,31 @@ class Home extends Component {
             gender: '',
             cardType: '',
             cardNumber: '',
-            isAdmin: ''
+            isAdmin: '',
+            adminData: {
+                name: '',
+                surname: '',
+                email: '',
+                password: '',
+                gender: '',
+                cardType: '',
+                cardNumber: '',
+                isPersonAdmin: ''
+            },
+            adminDataToUpdate: {
+                adminDataId: '',
+                name: '',
+                surname: '',
+                email: '',
+                password: '',
+                gender: '',
+                cardType: '',
+                cardNumber: '',
+                isPersonAdmin: ''
+            },
+            deleteUserId: '',
+            grantAdmin: '',
+            revokeAdmin: ''
         }
         this.getData = this.getData.bind(this);
     }
@@ -74,70 +97,292 @@ class Home extends Component {
             alert('Błąd podczas usuwania użytkownika')
         })
     }
+
+    onAdminDataChange = (e) => {
+        const { name, value } = e.target;
+        this.setState((prevState) => ({
+            adminData: {
+                ...prevState.adminData,
+                [name]: value
+            }
+        }));
+    };
+    onAdminDataToUpdateChange = (e) => {
+        const { name, value } = e.target;
+        this.setState((prevState) => ({
+            adminDataToUpdate: {
+                ...prevState.adminDataToUpdate,
+                [name]: value
+            }
+        }));
+    };
+
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
     };
 
+    saveAdminData = () => {
+        ApiService.createPerson(this.state.adminData)
+            .then(alert("Dodano pomyślnie"))
+            .catch((error) => {
+                console.error('Błąd podczas dodawania', error);
+                alert("Błąd podczas dodawania")
+            })
+
+        }
+
+    deleteUserById = () => {
+        ApiService.deletePersonById(this.state.deleteUserId)
+            .then(alert("Usunięto pomyślnie"))
+            .catch((error) => {
+                console.error('Błąd podczas usuwania', error);
+                alert("Błąd podczas usuwania")
+            })
+    }
+
+    grandAdminById = () => {
+        ApiService.grandAdminById(this.state.grantAdmin)
+            .then(alert("Przyznano pomyślnie"))
+            .catch((error) => {
+                console.error('Błąd podczas przyznawania', error);
+                alert("Błąd podczas przyznawania")
+            })
+    }
+
+    revokeAdminById = () => {
+        ApiService.revokeAdminById(this.state.revokeAdmin)
+            .then(alert("Odebrano pomyślnie"))
+            .catch((error) => {
+                console.error('Błąd podczas odbierania', error);
+                alert("Błąd podczas odbierania")
+            })
+    }
+
+    updateAdminDataById = () => {
+        ApiService.updatePersonById(this.state.adminDataToUpdate.adminDataId,
+            this.state.adminDataToUpdate)
+
+    }
+
     renderAdminPanel = () => { //TODO zrobic tak zeby w tej funkcji byl obiekt ktory potem jest wysylany do .save() na backend
+
         if (this.state.isAdmin === true)
-        return (
+            return (
                 <div>
                     <h1>Admin Panel</h1>
                     <h2>Dodaj użytkownika</h2>
-                    <label>
-                        Imię:
-                        <input type="text" name="name" value={this.state.name} onChange={this.onChange} />
-                    </label>
-                    <br />
-                    <label>
-                        Nazwisko:
-                        <input type="text" name="surname" value={this.state.surname} onChange={this.onChange} />
-                    </label>
-                    <br />
-                    <label>
-                        Email:
-                        <input type="email" name="email" value={this.state.email} onChange={this.onChange} />
-                    </label>
-                    <br />
-                    <label>
-                        Hasło:
-                        <input
-                            name="password"
-                            value={this.state.password}
-                            onChange={this.onChange}
-                        />
-                    </label>
-                    <br />
-                    <label>
-                        Płeć:
-                        <select name="gender" value={this.state.gender} onChange={this.onChange}>
-                            <option value="MALE">MALE</option>
-                            <option value="FEMALE">FEMALE</option>
-                            <option value="OTHER">OTHER</option>
-                        </select>
-                    </label>
-                    <br />
-                    <label>
-                        Typ karty:
-                        <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
-                            <option value="VISA">VISA</option>
-                            <option value="MASTERCARD">MASTERCARD</option>
-                            <option value="OTHER">OTHER</option>
-                        </select>
-                    </label>
-                    <br />
-                    <label>
-                        Numer karty:
-                        <input
-                            type="text"
-                            name="cardNumber"
-                            value={this.state.cardNumber}
-                            onChange={this.onChange}
-                            maxLength="16"
-                        />
-                    </label>
+                    <form onSubmit={this.saveAdminData}>
+                        <label>
+                            Imię:
+                            <input
+                                type="text"
+                                name="name"
+                                value={this.state.adminData.name}
+                                onChange={this.onAdminDataChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Nazwisko:
+                            <input
+                                type="text"
+                                name="surname"
+                                value={this.state.adminData.surname}
+                                onChange={this.onAdminDataChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                name="email"
+                                value={this.state.adminData.email}
+                                onChange={this.onAdminDataChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Hasło:
+                            <input
+                                name="password"
+                                value={this.state.adminData.password}
+                                onChange={this.onAdminDataChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Płeć:
+                            <select
+                                name="gender"
+                                value={this.state.adminData.gender}
+                                onChange={this.onAdminDataChange}
+                            >
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Typ karty:
+                            <select
+                                name="cardType"
+                                value={this.state.adminData.cardType}
+                                onChange={this.onAdminDataChange}
+                            >
+                                <option value="VISA">VISA</option>
+                                <option value="MASTERCARD">MASTERCARD</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Numer karty:
+                            <input
+                                type="text"
+                                name="cardNumber"
+                                value={this.state.adminData.cardNumber}
+                                onChange={this.onAdminDataChange}
+                                maxLength="16"
+                            />
+                        </label>
+                        <br />
+                        <button type="submit">Dodaj</button>
+                    </form>
+
+                    <h2>Edycja statusu ADMINA</h2>
+                    <form onSubmit={this.grandAdminById}>
+                        <label>
+                            Id:
+                            <input
+                                name="grantAdmin"
+                                value={this.state.grantAdmin}
+                                onChange={this.onChange}/>
+                        </label>
+                        <br />
+                        <button type="submit">Przyznaj</button>
+                    </form>
+                    <form onSubmit={this.revokeAdminById}>
+                        <label>
+                            Id:
+                            <input
+                                name="revokeAdmin"
+                                value={this.state.revokeAdmin}
+                                onChange={this.onChange}/>
+                        </label>
+                        <br />
+                        <button type="submit">Odbierz</button>
+                    </form>
+
+                    <h2>Edytuj użytkownika</h2>
+                    <form onSubmit={this.updateAdminDataById}>
+                        <label>
+                            ID:
+                            <input
+                                required={true}
+                                type="text"
+                                name="adminDataId"
+                                value={this.state.adminDataToUpdate.adminDataId}
+                                onChange={this.onAdminDataToUpdateChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Imię:
+                            <input
+                                type="text"
+                                name="name"
+                                value={this.state.adminDataToUpdate.name}
+                                onChange={this.onAdminDataToUpdateChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Nazwisko:
+                            <input
+                                type="text"
+                                name="surname"
+                                value={this.state.adminDataToUpdate.surname}
+                                onChange={this.onAdminDataToUpdateChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Email:
+                            <input
+                                type="email"
+                                name="email"
+                                value={this.state.adminDataToUpdate.email}
+                                onChange={this.onAdminDataToUpdateChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Hasło:
+                            <input
+                                name="password"
+                                value={this.state.adminDataToUpdate.password}
+                                onChange={this.onAdminDataToUpdateChange}
+                            />
+                        </label>
+                        <br />
+                        <label>
+                            Płeć:
+                            <select
+                                name="gender"
+                                value={this.state.adminDataToUpdate.gender}
+                                onChange={this.onAdminDataToUpdateChange}
+                            >
+                                <option value="MALE">MALE</option>
+                                <option value="FEMALE">FEMALE</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Typ karty:
+                            <select
+                                name="cardType"
+                                value={this.state.adminDataToUpdate.cardType}
+                                onChange={this.onAdminDataToUpdateChange}
+                            >
+                                <option value="VISA">VISA</option>
+                                <option value="MASTERCARD">MASTERCARD</option>
+                                <option value="OTHER">OTHER</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Numer karty:
+                            <input
+                                type="text"
+                                name="cardNumber"
+                                value={this.state.adminDataToUpdate.cardNumber}
+                                onChange={this.onAdminDataToUpdateChange}
+                                maxLength="16"
+                            />
+                        </label>
+                        <br />
+                        <button type="submit">Aktualizuj</button>
+                    </form>
+
+                    <h2>Usuń użytkownika</h2>
+                    <form onSubmit={this.deleteUserById}>
+                        <label>
+                            Id:
+                            <input
+                                name="deleteUserId"
+                                value={this.state.deleteUserId}
+                                onChange={this.onChange}/>
+                        </label>
+                        <br />
+                        <button type="submit">Usuń</button>
+                    </form>
+
+
                 </div>
-        );
+            );
     };
 
 
@@ -189,6 +434,9 @@ class Home extends Component {
                     <button onClick={this.deletePerson}>DELETE 4 EVER</button>
                 </div>
                 <div>
+                    <Routes>
+                        <Route path="/adminPanel" element={<AdminPanel/>}/>
+                    </Routes>
                     {this.renderAdminPanel()}
                 </div>
             </div>

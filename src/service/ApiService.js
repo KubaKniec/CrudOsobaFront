@@ -30,6 +30,15 @@ class ApiService {
     checkIsAdmin(id) {
         return axios.get(BACKEND_URL + '/isAdmin?id=' + id)
     }
+
+    grandAdminById(id) {
+        return axios.put(BACKEND_URL + '/grantAdmin/' + id)
+    }
+
+    revokeAdminById(id) {
+        return axios.put(BACKEND_URL + '/revokeAdmin/' + id)
+
+    }
 }
 
 export default new ApiService();
