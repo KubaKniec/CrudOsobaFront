@@ -1,0 +1,74 @@
+/*!* Dodatkowe style dla przycisku "Login" *!*/
+/*button[type="button"] {*/
+/*    width: 100%; !* Szerokość 100% *!*/
+/*    background-color: #3498db; !* Kolor przycisku *!*/
+/*    color: #fff; !* Kolor tekstu przycisku *!*/
+/*    padding: 10px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*button[type="button"]:hover {*/
+/*    background-color: #2980b9; !* Kolor przycisku po najechaniu myszką *!*/
+/*}*/
+
+/*!* Style dla formularza rejestracji *!*/
+/*h2 {*/
+/*    color: #3498db; !* Kolor nagłówka *!*/
+/*}*/
+
+/*form {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center; !* Wyrównanie do środka *!*/
+/*    margin-top: 20px;*/
+/*}*/
+
+/*label {*/
+/*    margin-bottom: 10px;*/
+/*    color: #333; !* Kolor tekstu label *!*/
+/*}*/
+
+/*input {*/
+/*    width: 100%; !* Szerokość 100% *!*/
+/*    padding: 8px;*/
+/*    margin-bottom: 15px;*/
+/*    border: 1px solid #ddd; !* Kolor obramowania pola wejściowego *!*/
+/*    box-sizing: border-box; !* Uwzględnia padding w całkowitej szerokości elementu *!*/
+/*}*/
+
+/*div {*/
+/*    margin-top: 5px;*/
+/*    font-size: 0.8em;*/
+/*}*/
+
+/*select {*/
+/*    width: 100%; !* Szerokość 100% *!*/
+/*    padding: 8px;*/
+/*    margin-bottom: 15px;*/
+/*    border: 1px solid #ddd; !* Kolor obramowania pola wejściowego *!*/
+/*    box-sizing: border-box; !* Uwzględnia padding w całkowitej szerokości elementu *!*/
+/*}*/
+
+/*!* Style dla przycisku "Zarejestruj się" *!*/
+/*button[type="submit"] {*/
+/*    width: 100%; !* Szerokość 100% *!*/
+/*    background-color: #3498db; !* Kolor przycisku *!*/
+/*    color: #fff; !* Kolor tekstu przycisku *!*/
+/*    padding: 10px;*/
+/*    border: none;*/
+/*    cursor: pointer;*/
+/*}*/
+
+/*button[type="submit"]:hover {*/
+/*    background-color: #2980b9; !* Kolor przycisku po najechaniu myszką *!*/
+/*}*/
+
+/*!* Style dla komunikatu alertu *!*/
+/*div[style="color: green;"] {*/
+/*    color: green;*/
+/*}*/
+
+/*div[style="color: red;"] {*/
+/*    color: red;*/
+/*}*/

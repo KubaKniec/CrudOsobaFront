@@ -1,0 +1,95 @@
+.Home {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+}
+
+/* Style dla sekcji Person Data */
+.PersonData {
+    margin-top: 20px;
+}
+
+/* Style dla przycisków */
+button {
+    background-color: #3498db; /* Dowolny kolor */
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+
+button:hover {
+    background-color: #2980b9; /* Kolor po najechaniu myszką */
+}
+
+/* Style dla formularzy */
+form {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 10px;
+}
+
+input,
+select {
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Style dla sekcji Danger Zone */
+.DangerZone {
+    margin-top: 40px;
+}
+
+/* Dodatkowe style dla Admin Panel - dostosuj według potrzeb */
+.AdminPanel {
+    margin-top: 40px;
+}
+
+.AdminPanel form {
+    margin-bottom: 20px;
+}
+
+/* Dodatkowe style dla Edit Data - dostosuj według potrzeb */
+.EditData {
+    margin-top: 40px;
+}
+
+.EditData form {
+    margin-bottom: 20px;
+}
+
+/* Dodatkowe style dla Routes i Link - dostosuj według potrzeb */
+.Routes,
+.Link {
+    margin-top: 20px;
+}
+
+
+.anotherDiv {
+    border: 1px solid #3498db; /* Add a border with the color #3498db */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    padding: 10px;
+    margin: 10px 0;
+    background-color: rgba(52, 152, 219, 0.2);
+}
+
+.divInAdmin {
+    border: 1px solid #3498db; /* Add a border with the color #3498db */
+    border-radius: 5px; /* Optional: Add border-radius for rounded corners */
+    padding: 10px;
+    margin: 10px 0;
+    background-color: rgba(200, 200, 250, 0.25);
+}
+
+.ReloadData {
+    background-color: purple;
+}
+
+.Delete:hover {
+    background-color: red;
+}
+

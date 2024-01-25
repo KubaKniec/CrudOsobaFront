@@ -1,0 +1,77 @@
+.Login {
+    font-family: 'Arial', sans-serif;
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+h2 {
+    color: #3498db; /* Kolor nagłówka */
+}
+
+/* Style dla formularza */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Wyrównanie do środka */
+    margin-top: 20px;
+}
+
+label {
+    margin-bottom: 10px;
+    color: #333; /* Kolor tekstu label */
+}
+
+input {
+    width: 100%; /* Szerokość 100% */
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd; /* Kolor obramowania pola wejściowego */
+    box-sizing: border-box; /* Uwzględnia padding w całkowitej szerokości elementu */
+}
+
+/* Style dla przycisków */
+button {
+    width: 20%; /* Szerokość 100% */
+    background-color: #3498db; /* Kolor przycisku */
+    color: #fff; /* Kolor tekstu przycisku */
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9; /* Kolor przycisku po najechaniu myszką */
+}
+
+/* Style dla przycisku pokazującego/ukrywającego hasło */
+button[type="button"] {
+    width: 100%; /* Szerokość 100% */
+    background-color: transparent;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+}
+
+/* Dodatkowe style dla różnych stanów hasła (pokazane/ukryte) */
+input[type="password"] {
+    width: 100%; /* Szerokość 100% */
+    border: 1px solid #ddd; /* Kolor obramowania pola wejściowego */
+}
+
+input[type="text"] {
+    width: 100%; /* Szerokość 100% */
+    border: 1px solid #ddd; /* Kolor obramowania pola wejściowego */
+}
+
+/* Style dla komunikatu alertu */
+.alert {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e74c3c; /* Kolor tła alertu (czerwony) */
+    color: #fff; /* Kolor tekstu alertu */
+}
+
+/* Dodatkowe style dla komunikatu alertu w przypadku sukcesu */
+.alert.success {
+    background-color: #2ecc71; /* Kolor tła alertu (zielony) */
+}

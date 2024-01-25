@@ -1,0 +1,93 @@
+/* Wstawianie elementów za pomocą CSS */
+.App {
+    font-family: 'Arial', sans-serif;
+}
+
+/* Użycie transformacji elementów (translate, rotate, scale itp.) */
+.App-logo {
+    width: 100px;
+    height: 100px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.App-logo:hover {
+    transform: rotate(360deg);
+}
+
+/* Utworzenie animacji w CSS */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+h2 {
+    animation: fadeIn 1s ease-in-out;
+}
+
+h1 {
+    animation: fadeIn 1s ease-in-out;
+}
+h4{
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Funkcjonalne ułożenie elementów aplikacji */
+.App-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body {
+    padding: 20px;
+}
+
+/* Użycie zdefiniowanych zmiennych */
+:root {
+    --primary-color: #3498db;
+    --secondary-color: #2ecc71;
+}
+
+button {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 10px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Użycie mechanizmu dziedziczenia */
+h2, h4, h6 {
+    color: var(--primary-color);
+}
+
+/* Skorzystanie z operatorów matematycznych */
+.App-logo {
+    margin-bottom: 20px;
+}
+
+/* Skorzystanie ze struktur warunkowych oraz cyklicznych */
+/*h3 {*/
+/*    display: ${(props) => (props.show ? 'block' : 'none')};*/
+/*}*/
+
+/* Kolorystyka dowolna, zaznacz komentarzem miejsca w których spełniłeś wymaganie. */
+/* Kolorystyka dowolna - przykład użycia zmiennych */
+button:hover {
+    background-color: var(--secondary-color);
+}
+
+/* Kolorystyka dowolna - przykład użycia struktury warunkowej */
+/*h3 {*/
+/*    color: ${(props) => (props.darkMode ? '#fff' : '#333')};*/
+/*}*/
+
+/* Kolorystyka dowolna - przykład użycia operatorów matematycznych */
+body {
+    background-color: rgb(240, 240, 240);
+}

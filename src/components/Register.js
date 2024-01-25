@@ -3,6 +3,7 @@ import ApiService from '../service/ApiService';
 import { Link, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 
+
 class Register extends Component {
     state = {
         name: '',
@@ -47,6 +48,15 @@ class Register extends Component {
             );
             return;
         }
+
+        //Wlidacja polna CardNumber
+        const cardNumberRegex = /^\d{16}$/
+        if (!cardNumberRegex.test(this.state.cardNumber)) {
+            alert(
+                'Numer karty musi posiadać 16 cyfr, bez liter.'
+            )
+        }
+
 
         // Jeśli walidacja przebiegła pomyślnie, kontynuuj zapisywanie użytkownika
         const person = {

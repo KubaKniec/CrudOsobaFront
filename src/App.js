@@ -11,6 +11,7 @@ import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {render} from "@testing-library/react";
 import EditPersonData from "./components/EditPersonData";
+import './css/Styles.css'
 
 
 function App() {
