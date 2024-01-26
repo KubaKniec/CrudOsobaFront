@@ -16,7 +16,7 @@ class ApiService {
     }
 
     getPersonById(id) {
-        return axios.get(BACKEND_URL +'/getById?id=' + id);
+        return axios.get(BACKEND_URL + '/getById?id=' + id);
     }
 
     deletePersonById(id) {
@@ -40,9 +40,39 @@ class ApiService {
 
     }
 
-    loadDataFromCSV(pathToCSV) {
-        return axios.post(BACKEND_URL + '/loadData?pathToCSV=' + pathToCSV)
+    loadDataFromCSV(id, pathToCSV) {
+        return axios.post(BACKEND_URL + '/loadData?id=' + id + '&pathToCSV=' + pathToCSV)
     }
+
+    exportDataToCSV(id, pathToCSV) {
+        return axios.get(BACKEND_URL + '/exportData?id=' + id + '&pathToCSV=' + pathToCSV)
+    }
+
+    findMaxPasswordLength() {
+        return axios.get(BACKEND_URL + '/findMaxPasswordLength');
+    }
+
+    countByGender() {
+        return axios.get(BACKEND_URL + '/countByGender');
+    }
+
+    findAverageNameLength() {
+        return axios.get(BACKEND_URL + '/findAverageNameLength');
+    }
+
+    findAdminsWithCardType() {
+        return axios.get(BACKEND_URL + '/findAdminsWithCardType');
+    }
+
+    countByCardType() {
+        return axios.get(BACKEND_URL + '/countByCardType');
+    }
+
+    findAveragePasswordLength() {
+        return axios.get(BACKEND_URL + '/findAveragePasswordLength');
+    }
+
+
 }
 
 export default new ApiService();

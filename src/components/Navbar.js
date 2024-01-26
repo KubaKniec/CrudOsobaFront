@@ -17,7 +17,7 @@ const Navbar = () => {
         localStorage.clear();
     }
     const isLoggedIn = () => {
-        if (localStorage.getItem('login-data-name') !== undefined){
+        if (localStorage.getItem('login-data-name') !== undefined) {
             return render(<button onClick={logout}>logout</button>)
         }
         return '';
@@ -49,7 +49,9 @@ const Navbar = () => {
                         </Link>
                     </a>
                     </li>
-                    <li><a><button onClick={logout}>logout</button></a></li>
+                    <li><a>
+                        <button onClick={logout}>logout</button>
+                    </a></li>
                 </ul>
             </nav>
         </BrowserRouter>

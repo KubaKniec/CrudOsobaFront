@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import ApiService from "../service/ApiService";
-import App from "../App";
-import {BrowserRouter, Link, Route, Routes} from "react-router-dom";
+import {Link, Route, Routes} from "react-router-dom";
 import EditPersonData from "./EditPersonData";
 import "../css/Home.css"
+
 // import AdminPanel from "./AdminPanel";
 
 class Home extends Component {
@@ -43,7 +43,14 @@ class Home extends Component {
             deleteUserId: '',
             grantAdmin: '',
             revokeAdmin: '',
-            csvPath: ''
+            csvImportPath: '',
+            csvExportPath: '',
+            findMaxPasswordLength: '',
+            countByGender: '',
+            findAverageNameLength: '',
+            findAdminsWithCardType: '',
+            countByCardType: '',
+            findAveragePasswordLength: ''
         }
         this.getData = this.getData.bind(this);
     }
@@ -61,19 +68,20 @@ class Home extends Component {
         });
 
 
-            const isAdmin = await this.checkIsAdmin();
+        const isAdmin = await this.checkIsAdmin();
 
-            if (isAdmin === true) {
-                this.setState({
-                    isAdmin: true,
-                });
-            } else {
-                this.setState({
-                    isAdmin: false,
-                });
-            }
+        if (isAdmin === true) {
+            this.setState({
+                isAdmin: true,
+            });
+        } else {
+            this.setState({
+                isAdmin: false,
+            });
+        }
 
     };
+
     async componentDidMount() {
         await this.getData(localStorage.getItem('login-data-id'));
     }
@@ -101,7 +109,7 @@ class Home extends Component {
     }
 
     onAdminDataChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         this.setState((prevState) => ({
             adminData: {
                 ...prevState.adminData,
@@ -110,7 +118,7 @@ class Home extends Component {
         }));
     };
     onAdminDataToUpdateChange = (e) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         this.setState((prevState) => ({
             adminDataToUpdate: {
                 ...prevState.adminDataToUpdate,
@@ -120,7 +128,7 @@ class Home extends Component {
     };
 
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     saveAdminData = () => {
@@ -131,7 +139,7 @@ class Home extends Component {
                 alert("Błąd podczas dodawania")
             })
 
-        }
+    }
 
     deleteUserById = () => {
         ApiService.deletePersonById(this.state.deleteUserId)
@@ -167,8 +175,35 @@ class Home extends Component {
     }
 
     loadDataFromCSV = () => {
-        ApiService.loadDataFromCSV(this.state.csvPath)
+        ApiService.loadDataFromCSV(this.state.id, this.state.csvImportPath);
     }
+
+    exportDataToCSV = () => {
+        ApiService.exportDataToCSV(this.state.id, this.state.csvExportPath);
+    }
+
+    loadFunData = async () => {
+        try {
+            const maxPasswordLengthResponse = await ApiService.findMaxPasswordLength();
+            const countByGenderResponse = await ApiService.countByGender();
+            const averageNameLengthResponse = await ApiService.findAverageNameLength();
+            const adminsWithCardTypeResponse = await ApiService.findAdminsWithCardType();
+            const countByCardTypeResponse = await ApiService.countByCardType();
+            const averagePasswordLengthResponse = await ApiService.findAveragePasswordLength();
+
+            this.setState({
+                findMaxPasswordLength: maxPasswordLengthResponse.data,
+                countByGender: countByGenderResponse.data,
+                findAverageNameLength: averageNameLengthResponse.data,
+                findAdminsWithCardType: adminsWithCardTypeResponse.data,
+                countByCardType: countByCardTypeResponse.data,
+                findAveragePasswordLength: averagePasswordLengthResponse.data,
+            });
+        } catch (error) {
+            console.error('Error loading fun facts:', error);
+            // Handle the error, e.g., show an error message to the user
+        }
+    };
 
     renderAdminPanel = () => { //TODO zrobic tak zeby w tej funkcji byl obiekt ktory potem jest wysylany do .save() na backend
 
@@ -188,7 +223,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Nazwisko:
                                 <input
@@ -198,7 +233,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Email:
                                 <input
@@ -208,7 +243,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Hasło:
                                 <input
@@ -217,7 +252,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Płeć:
                                 <select
@@ -230,7 +265,7 @@ class Home extends Component {
                                     <option value="OTHER">OTHER</option>
                                 </select>
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Typ karty:
                                 <select
@@ -243,7 +278,7 @@ class Home extends Component {
                                     <option value="OTHER">OTHER</option>
                                 </select>
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Numer karty:
                                 <input
@@ -254,12 +289,10 @@ class Home extends Component {
                                     maxLength="16"
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Dodaj</button>
                         </form>
                     </div>
-
-
                     <div className={"divInAdmin"}>
                         <h2>Edycja statusu ADMINA</h2>
                         <form onSubmit={this.grandAdminById}>
@@ -270,7 +303,7 @@ class Home extends Component {
                                     value={this.state.grantAdmin}
                                     onChange={this.onChange}/>
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Przyznaj</button>
                         </form>
                         <form onSubmit={this.revokeAdminById}>
@@ -281,7 +314,7 @@ class Home extends Component {
                                     value={this.state.revokeAdmin}
                                     onChange={this.onChange}/>
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Odbierz</button>
                         </form>
                     </div>
@@ -299,7 +332,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataToUpdateChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Imię:
                                 <input
@@ -309,7 +342,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataToUpdateChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Nazwisko:
                                 <input
@@ -319,7 +352,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataToUpdateChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Email:
                                 <input
@@ -329,7 +362,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataToUpdateChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Hasło:
                                 <input
@@ -338,7 +371,7 @@ class Home extends Component {
                                     onChange={this.onAdminDataToUpdateChange}
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Płeć:
                                 <select
@@ -351,7 +384,7 @@ class Home extends Component {
                                     <option value="OTHER">OTHER</option>
                                 </select>
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Typ karty:
                                 <select
@@ -364,7 +397,7 @@ class Home extends Component {
                                     <option value="OTHER">OTHER</option>
                                 </select>
                             </label>
-                            <br />
+                            <br/>
                             <label>
                                 Numer karty:
                                 <input
@@ -375,7 +408,7 @@ class Home extends Component {
                                     maxLength="16"
                                 />
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Aktualizuj</button>
                         </form>
                     </div>
@@ -389,7 +422,7 @@ class Home extends Component {
                                     value={this.state.deleteUserId}
                                     onChange={this.onChange}/>
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Usuń</button>
                         </form>
                     </div>
@@ -397,54 +430,67 @@ class Home extends Component {
                         <h2>Załaduj dane z CSV</h2>
                         <form onSubmit={this.loadDataFromCSV}>
                             <label>
-                                Ścieżka do pliku csv:<br/>
-                                Zapisz plik na dysku 'C' i podaj do niego ścieżkę<br/>
-                                poprawna ścieżka: test.csv<br/>
-                                niepoprawna ścieżka: C:/test.scv<br/>
+                                Podaj ścieżkę do instniejącego pliku CSV (BEZ NAZWY DYSKU)<br/>
+                                Zapisz plik na dysku 'C' !<br/>
+                                poprawna ścieżka: /example/test.csv<br/>
+                                niepoprawna ścieżka: C:/example/test.scv<br/>
                                 <input
                                     type="text"
-                                    name="csvPath"
-                                    value={this.state.csvPath}
+                                    name="csvImportPath"
+                                    value={this.state.csvImportPath}
                                     onChange={this.onChange}/>
                             </label>
-                            <br />
+                            <br/>
                             <button type="submit">Załaduj dane</button>
+                        </form>
+                        <h2>Wykesportuj dane do CVS</h2>
+                        <form onSubmit={this.exportDataToCSV}>
+                            <label>
+                                Ścieżka do miejsca zapisu pliku:<br/>
+                                Dysk dowolny<br/>
+                                poprawna ścieżka: C:/example/test.csv<br/>
+                                niepoprawna ścieżka: /example/test.scv<br/>
+                                <input
+                                    type="text"
+                                    name="csvExportPath"
+                                    value={this.state.csvExportPath}
+                                    onChange={this.onChange}/>
+                            </label>
+                            <br/>
+                            <button type="submit">Wyeksportuj dane</button>
                         </form>
                     </div>
                 </div>
             );
     };
 
-
-
-
     render() {
-        return(
+        return (
             <div>
                 <h1>Home</h1>
                 <button className={"ReloadData"} onClick={this.getData}>Reload Data</button>
                 <div className={"anotherDiv"}>
                     <h2>Person data:</h2>
                     <label>Id: {this.state.id}</label>
-                    <br />
+                    <br/>
                     <label>Email: {this.state.email}</label>
-                    <br />
+                    <br/>
                     <label>Imię: {this.state.name}</label>
-                    <br />
+                    <br/>
                     <label>Nazwisko: {this.state.surname}</label>
-                    <br />
+                    <br/>
                     <label>Hasło: {this.state.password}</label>
-                    <br />
+                    <br/>
                     <label>Płeć: {this.state.gender}</label>
-                    <br />
+                    <br/>
                     <label>Typ karty: {this.state.cardType}</label>
-                    <br />
+                    <br/>
                     <label>Numer karty: {this.state.cardNumber}</label>
 
 
                 </div>
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <div className={"anotherDiv"}>
                     <h1>Edit Data: </h1>
                     <Routes>
@@ -456,8 +502,8 @@ class Home extends Component {
                 </div>
 
 
-                <br />
-                <br />
+                <br/>
+                <br/>
                 <div className={"anotherDiv"}>
                     <h1>DANGER ZONE</h1>
                     <div>
@@ -465,13 +511,39 @@ class Home extends Component {
                         <button className={"Delete"} onClick={this.deletePerson}>DELETE 4 EVER</button>
                     </div>
                 </div>
-
+                <div className={"anotherDiv"}>
+                    <div>
+                        <h2>Fun Facts</h2>
+                        <p>Max Password Length: {this.state.findMaxPasswordLength}</p>
+                        <p>Gender Counts: {JSON.stringify(this.state.countByGender)}</p>
+                        <p>Average Name Length: {this.state.findAverageNameLength}</p>
+                        <p><strong>Admin Card Type Counts:</strong></p>
+                        <ul>
+                            {Array.isArray(this.state.findAdminsWithCardType) &&
+                            this.state.findAdminsWithCardType.reduce((cardTypeCounts, adminWithType) => {
+                                const cardType = adminWithType[1];
+                                cardTypeCounts[cardType] = (cardTypeCounts[cardType] || 0) + 1;
+                                return cardTypeCounts;
+                            }, {})
+                                ? Object.entries(this.state.findAdminsWithCardType.reduce((cardTypeCounts, adminWithType) => {
+                                    const cardType = adminWithType[1];
+                                    cardTypeCounts[cardType] = (cardTypeCounts[cardType] || 0) + 1;
+                                    return cardTypeCounts;
+                                }, {})).map(([cardType, count]) => (
+                                    <label key={cardType}>{`${cardType}: ${count}`}</label>
+                                ))
+                                : null
+                            }
+                        </ul>
+                        <p>Card Type Counts: {JSON.stringify(this.state.countByCardType)}</p>
+                        <p>Average Password Length: {this.state.findAveragePasswordLength}</p>
+                        <button onClick={this.loadFunData}>Load fun Data</button>
+                    </div>
+                </div>
                 <div>
-                    {/*<Routes>*/}
-                    {/*    <Route path="/adminPanel" element={<AdminPanel/>}/>*/}
-                    {/*</Routes>*/}
                     {this.renderAdminPanel()}
                 </div>
+
             </div>
         )
     }

@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Formik, Field, Form } from "formik";
+import React, {useEffect, useState} from "react";
+import {Field, Form, Formik} from "formik";
 import ApiService from "../service/ApiService";
 
 const EditPersonData = () => {
@@ -47,24 +47,24 @@ const EditPersonData = () => {
         const userId = localStorage.getItem('login-data-id');
 
         if (userId) {
-            const { id, name, surname, email, password, gender, cardType, cardNumber } = values;
+            const {id, name, surname, email, password, gender, cardType, cardNumber} = values;
 
             // Additional validation logic for email, password, and cardNumber
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{6,}$/;
             const cardNumberRegex = /^\d{16}$/;
 
-            if (!email==="" && !emailRegex.test(email)) {
+            if (!email === "" && !emailRegex.test(email)) {
                 alert('Email niepoprawny');
                 return;
             }
 
-            if (!password==="" && !passwordRegex.test(password)) {
+            if (!password === "" && !passwordRegex.test(password)) {
                 alert('Hasło nie spełnia wymagań');
                 return;
             }
 
-            if (!cardNumber==="" && !cardNumberRegex.test(cardNumber)) {
+            if (!cardNumber === "" && !cardNumberRegex.test(cardNumber)) {
                 alert('Numer karty niepoprawny');
                 return;
             }
@@ -82,11 +82,11 @@ const EditPersonData = () => {
 
             ApiService.updatePersonById(userId, updatedPerson)
                 .then((res) => {
-                    setUserData({ ...values, message: 'Zaktualizowano dane użytkownika pomyślnie.' });
+                    setUserData({...values, message: 'Zaktualizowano dane użytkownika pomyślnie.'});
                 })
                 .catch((error) => {
                     console.error('Błąd podczas aktualizacji danych użytkownika:', error);
-                    setUserData({ ...values, message: 'Błąd podczas aktualizacji danych użytkownika.' });
+                    setUserData({...values, message: 'Błąd podczas aktualizacji danych użytkownika.'});
                 });
         } else {
             alert("Zaloguj się aby edytować dane");
@@ -151,19 +151,19 @@ const EditPersonData = () => {
                     <Form>
                         <label>
                             Imię:
-                            <Field type="text" name="name" />
+                            <Field type="text" name="name"/>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Nazwisko:
-                            <Field type="text" name="surname" />
+                            <Field type="text" name="surname"/>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Email:
-                            <Field type="email" name="email" />
+                            <Field type="email" name="email"/>
                         </label>
-                        <br />
+                        <br/>
                         <div>
                             <label>
                                 Hasło:
@@ -190,7 +190,7 @@ const EditPersonData = () => {
                                 <option value="OTHER">OTHER</option>
                             </Field>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Typ karty:
                             <Field as="select" name="cardType">
@@ -199,7 +199,7 @@ const EditPersonData = () => {
                                 <option value="OTHER">OTHER</option>
                             </Field>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Numer karty:
                             <Field
@@ -209,14 +209,14 @@ const EditPersonData = () => {
                             />
                         </label>
                         {checkCardNumber() !== 'Poprawny numer karty' && (
-                            <div style={{ color: 'red' }}>{checkCardNumber()}</div>
+                            <div style={{color: 'red'}}>{checkCardNumber()}</div>
                         )}
-                        <br />
-                        <br />
+                        <br/>
+                        <br/>
                         <button type="submit">Zapisz zmiany</button>
                     </Form>
                 </Formik>
-                {userData.message && <p style={{ color: 'green' }}>{userData.message}</p>}
+                {userData.message && <p style={{color: 'green'}}>{userData.message}</p>}
             </div>
         </>
     );

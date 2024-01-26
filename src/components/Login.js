@@ -27,7 +27,7 @@ class Login extends Component {
 
         ApiService.loginPerson(this.state.email, this.state.password)
             .then(response => {
-                if (response.data && response.data.id && response.data.name && response.data.surname){
+                if (response.data && response.data.id && response.data.name && response.data.surname) {
                     const person = response.data;
                     console.log(response.data.isAdmin)
                     console.log(person)
@@ -42,14 +42,15 @@ class Login extends Component {
 
                     console.log(localStorage.getItem('login-data-isAdmin'))
                     alert("Zalogowano pomyślnie")
+
                 } else {
                     alert("Zły email lub hasło")
                 }
 
             }).catch((error) => {
-                console.error('Błąd podczas logowania', error);
-                alert("Błąd podczas logowania, sprawdź wprowadzone dane")
-                })
+            console.error('Błąd podczas logowania', error);
+            alert("Błąd podczas logowania, sprawdź wprowadzone dane")
+        })
 
     }
 

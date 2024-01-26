@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import ApiService from '../service/ApiService';
-import { Link, Route, Routes } from 'react-router-dom';
+import {Link, Route, Routes} from 'react-router-dom';
 import Login from './Login';
 
 
@@ -71,18 +71,18 @@ class Register extends Component {
 
         ApiService.createPerson(person)
             .then((res) => {
-                this.setState({ message: 'Użytkownik został dodany pomyślnie.' });
+                this.setState({message: 'Użytkownik został dodany pomyślnie.'});
                 alert("Zarejestrowano pomyślnie")
             })
             .catch((error) => {
                 console.error('Błąd podczas rejestracji:', error);
-                this.setState({ message: 'Błąd podczas rejestracji użytkownika.' });
+                this.setState({message: 'Błąd podczas rejestracji użytkownika.'});
                 alert("Błąd podczas rejestracji użytkownika. Sprawdź wszystkie dane")
             });
     };
 
     onChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value });
+        this.setState({[e.target.name]: e.target.value});
     };
 
     toggleShowPassword = () => {
@@ -123,7 +123,7 @@ class Register extends Component {
             <>
                 <div>
                     <Routes>
-                        <Route path="/login" element={<Login />} />
+                        <Route path="/login" element={<Login/>}/>
                     </Routes>
                 </div>
                 <div>
@@ -131,19 +131,19 @@ class Register extends Component {
                     <form onSubmit={this.savePerson}>
                         <label>
                             Imię:
-                            <input type="text" name="name" value={this.state.name} onChange={this.onChange} />
+                            <input type="text" name="name" value={this.state.name} onChange={this.onChange}/>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Nazwisko:
-                            <input type="text" name="surname" value={this.state.surname} onChange={this.onChange} />
+                            <input type="text" name="surname" value={this.state.surname} onChange={this.onChange}/>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Email:
-                            <input type="email" name="email" value={this.state.email} onChange={this.onChange} />
+                            <input type="email" name="email" value={this.state.email} onChange={this.onChange}/>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Hasło:
                             <input
@@ -165,7 +165,7 @@ class Register extends Component {
                         >
                             {this.checkPasswordStrength()}
                         </div>
-                        <br />
+                        <br/>
                         <label>
                             Płeć:
                             <select name="gender" value={this.state.gender} onChange={this.onChange}>
@@ -174,7 +174,7 @@ class Register extends Component {
                                 <option value="OTHER">OTHER</option>
                             </select>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Typ karty:
                             <select name="cardType" value={this.state.cardType} onChange={this.onChange}>
@@ -183,7 +183,7 @@ class Register extends Component {
                                 <option value="OTHER">OTHER</option>
                             </select>
                         </label>
-                        <br />
+                        <br/>
                         <label>
                             Numer karty:
                             <input
@@ -195,9 +195,9 @@ class Register extends Component {
                             />
                         </label>
                         {this.checkCardNumber() !== 'Poprawny numer karty' && (
-                            <div style={{ color: 'red' }}>{this.checkCardNumber()}</div>
+                            <div style={{color: 'red'}}>{this.checkCardNumber()}</div>
                         )}
-                        <br />
+                        <br/>
                         <button type="submit">Zarejestruj się</button>
                     </form>
                     <h6>Masz już konto?</h6>
