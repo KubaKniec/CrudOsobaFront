@@ -25,7 +25,7 @@ function App() {
         if (userName) {
 
             return (
-                <div>
+                <div className={"anotherDiv"}>
                     <h6>Zalogowano jako {userName}</h6>
                     <button onClick={logout}>logout</button>
                 </div>

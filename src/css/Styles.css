@@ -4,15 +4,25 @@
 }
 
 /* Użycie transformacji elementów (translate, rotate, scale itp.) */
-.App-logo {
-    width: 100px;
-    height: 100px;
-    transition: transform 0.5s ease-in-out;
+@media (prefers-reduced-motion: no-preference){
+    .App-logo {
+        width: 100px;
+        height: 100px;
+        transition: transform 0.5s ease-in-out;
+        animation: App-logo-spin infinite 2.5s linear; border-radius: 50%;
+
+    }
 }
 
 .App-logo:hover {
-    transform: rotate(360deg);
+    transform: scale(100%,100%);
 }
+
+/*@media (prefers-reduced-motion: no-preference) {*/
+/*    .App-logo {*/
+/*        animation: App-logo-spin infinite 2.5s linear; border-radius: 50%;*/
+/*    }*/
+/*}*/
 
 /* Utworzenie animacji w CSS */
 @keyframes fadeIn {
@@ -62,33 +72,18 @@ button {
     cursor: pointer;
 }
 
-/* Użycie mechanizmu dziedziczenia */
 h2, h4, h6 {
     color: var(--primary-color);
 }
 
-/* Skorzystanie z operatorów matematycznych */
 .App-logo {
     margin-bottom: 20px;
 }
 
-/* Skorzystanie ze struktur warunkowych oraz cyklicznych */
-/*h3 {*/
-/*    display: ${(props) => (props.show ? 'block' : 'none')};*/
-/*}*/
-
-/* Kolorystyka dowolna, zaznacz komentarzem miejsca w których spełniłeś wymaganie. */
-/* Kolorystyka dowolna - przykład użycia zmiennych */
 button:hover {
     background-color: var(--secondary-color);
 }
 
-/* Kolorystyka dowolna - przykład użycia struktury warunkowej */
-/*h3 {*/
-/*    color: ${(props) => (props.darkMode ? '#fff' : '#333')};*/
-/*}*/
-
-/* Kolorystyka dowolna - przykład użycia operatorów matematycznych */
 body {
     background-color: rgb(240, 240, 240);
 }

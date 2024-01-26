@@ -201,11 +201,10 @@ class Home extends Component {
             });
         } catch (error) {
             console.error('Error loading fun facts:', error);
-            // Handle the error, e.g., show an error message to the user
         }
     };
 
-    renderAdminPanel = () => { //TODO zrobic tak zeby w tej funkcji byl obiekt ktory potem jest wysylany do .save() na backend
+    renderAdminPanel = () => {
 
         if (this.state.isAdmin === true)
             return (
@@ -430,10 +429,8 @@ class Home extends Component {
                         <h2>Załaduj dane z CSV</h2>
                         <form onSubmit={this.loadDataFromCSV}>
                             <label>
-                                Podaj ścieżkę do instniejącego pliku CSV (BEZ NAZWY DYSKU)<br/>
-                                Zapisz plik na dysku 'C' !<br/>
-                                poprawna ścieżka: /example/test.csv<br/>
-                                niepoprawna ścieżka: C:/example/test.scv<br/>
+                                Podaj ścieżkę do instniejącego pliku CSV<br/>
+                                poprawna ścieżka: C:/example/test.scv<br/>
                                 <input
                                     type="text"
                                     name="csvImportPath"
@@ -447,9 +444,7 @@ class Home extends Component {
                         <form onSubmit={this.exportDataToCSV}>
                             <label>
                                 Ścieżka do miejsca zapisu pliku:<br/>
-                                Dysk dowolny<br/>
-                                poprawna ścieżka: C:/example/test.csv<br/>
-                                niepoprawna ścieżka: /example/test.scv<br/>
+                                poprawna ścieżka: C:/example/test.csv  (folder /example/ musi istnieć)<br/>
                                 <input
                                     type="text"
                                     name="csvExportPath"

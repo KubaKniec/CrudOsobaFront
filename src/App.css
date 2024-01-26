@@ -8,11 +8,11 @@
   pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 2.5s linear; border-radius: 50%;
-  }
-}
+/*@media (prefers-reduced-motion: no-preference) {*/
+/*  .App-logo {*/
+/*    animation: App-logo-spin infinite 2.5s linear; border-radius: 50%;*/
+/*  }*/
+/*}*/
 
 .App-header {
   background-color: #282c34;
