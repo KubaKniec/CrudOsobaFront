@@ -49,7 +49,6 @@ const EditPersonData = () => {
         if (userId) {
             const {id, name, surname, email, password, gender, cardType, cardNumber} = values;
 
-            // Additional validation logic for email, password, and cardNumber
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{6,}$/;
             const cardNumberRegex = /^\d{16}$/;

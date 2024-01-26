@@ -168,12 +168,24 @@ class Home extends Component {
             })
     }
 
+
     updateAdminDataById = () => {
-        ApiService.updatePersonById(this.state.adminDataToUpdate.adminDataId,
-            this.state.adminDataToUpdate)
-
+        if (!this.state.adminDataToUpdate.adminDataId) {
+            console.warn('ID is required for updating data');
+            return;
+        }
+        const updatedFields = {};
+        for (const [key, value] of Object.entries(this.state.adminDataToUpdate)) {
+            if (value !== '') {
+                updatedFields[key] = value;
+            }
+        }
+        if (Object.keys(updatedFields).length === 0) {
+            console.warn('No fields to update');
+            return;
+        }
+        ApiService.updatePersonById(this.state.adminDataToUpdate.adminDataId, updatedFields);
     }
-
     loadDataFromCSV = () => {
         ApiService.loadDataFromCSV(this.state.id, this.state.csvImportPath);
     }
